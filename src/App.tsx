@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
+import { getCurrentWindow } from "@tauri-apps/api/window";
+import { getCurrentWebview } from "@tauri-apps/api/webview";
 
 function App() {
   const [greetMsg, setGreetMsg] = useState("");
@@ -11,6 +13,25 @@ function App() {
     // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
     setGreetMsg(await invoke("greet", { name }));
   }
+
+  useEffect(() => {
+    const currWindow = getCurrentWindow();
+    const currWebview = getCurrentWebview();
+
+    const unlisten = currWindow.onFocusChanged(({ payload: focused }) => {
+      console.log("Focus changed, window is focused? " + focused);
+      if (!focused) {
+        console.log("Window is not focused, closing");
+        //currWebview.close();
+      }
+    });
+
+    unlisten.then((unlisten) => {
+      return () => {
+        unlisten();
+      };
+    });
+  }, []);
 
   return (
     <main className="container">
@@ -33,6 +54,8 @@ function App() {
         className="row"
         onSubmit={(e) => {
           e.preventDefault();
+          console.log("Hello", name);
+          debugger;
           greet();
         }}
       >
