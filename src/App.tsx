@@ -4,6 +4,7 @@ import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { getCurrentWebview } from "@tauri-apps/api/webview";
+import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 
 function App() {
   const [greetMsg, setGreetMsg] = useState("");
@@ -16,13 +17,11 @@ function App() {
 
   useEffect(() => {
     const currWindow = getCurrentWindow();
-    const currWebview = getCurrentWebview();
 
     const unlisten = currWindow.onFocusChanged(({ payload: focused }) => {
       console.log("Focus changed, window is focused? " + focused);
       if (!focused) {
         console.log("Window is not focused, closing");
-        //currWebview.close();
       }
     });
 
