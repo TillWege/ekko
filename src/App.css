@@ -93,6 +93,10 @@ button {
   outline: none;
 }
 
+hr {
+  width: 100%;
+}
+
 #greet-input {
   margin-right: 5px;
 }

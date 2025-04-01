@@ -13,9 +13,10 @@
     "windows": [
       {
         "title": "ekko",
-        "width": 800,
-        "height": 600,
+        "width": 350,
+        "height": 80,
         "transparent": true,
+        "center": true,
         "decorations": false
       }
     ],

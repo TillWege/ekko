@@ -6,7 +6,7 @@ import { isRegistered, register } from "@tauri-apps/plugin-global-shortcut";
 import { Menu } from "@tauri-apps/api/menu";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { getCurrentWindow } from "@tauri-apps/api/window";
-import { LogicalPosition } from "@tauri-apps/api/dpi";
+import { LogicalPosition, LogicalSize } from "@tauri-apps/api/dpi";
 import { platform } from "@tauri-apps/plugin-os";
 
 let vis = true;
@@ -48,6 +48,15 @@ async function init() {
         text: "Close App",
         action: () => {
           console.log("close pressed");
+        },
+      },
+      {
+        id: "dbg",
+        text: "Debug",
+        action: async () => {
+          for (let i = 0; i < 10; i++) {
+            await currWindow.setSize(new LogicalSize(1000, 100 * i));
+          }
         },
       },
     ],
