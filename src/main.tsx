@@ -12,75 +12,78 @@ import { platform } from "@tauri-apps/plugin-os";
 let vis = true;
 
 async function toggleVisibility() {
-  const currWindow = getCurrentWebviewWindow();
+    const currWindow = getCurrentWebviewWindow();
 
-  if (!vis) {
-    await currWindow.setPosition(new LogicalPosition(0, 0));
-  } else {
-    await currWindow.setPosition(new LogicalPosition(1e6, 1e6));
-  }
-  vis = !vis;
+    if (!vis) {
+        await currWindow.setPosition(new LogicalPosition(0, 0));
+    } else {
+        await currWindow.setPosition(new LogicalPosition(1e6, 1e6));
+    }
+    vis = !vis;
 }
 
 async function init() {
-  const currWindow = getCurrentWindow();
-  await currWindow.setSkipTaskbar(true);
-  await currWindow.setAlwaysOnTop(true);
+    const currWindow = getCurrentWindow();
+    await currWindow.setSkipTaskbar(true);
+    await currWindow.setAlwaysOnTop(true);
 
-  const tray = await TrayIcon.new({
-    icon: "icons/logo-small.png",
-    tooltip: "Ekko",
-  });
+    const tray = await TrayIcon.new({
+        icon: "icons/logo-small.png",
+        tooltip: "Ekko",
+    });
 
-  tray.setShowMenuOnLeftClick(true);
+    tray.setShowMenuOnLeftClick(true);
 
-  const menu = await Menu.new({
-    items: [
-      {
-        id: "open",
-        text: "Open App",
-        action: () => {
-          console.log("open pressed");
-        },
-      },
-      {
-        id: "close",
-        text: "Close App",
-        action: () => {
-          console.log("close pressed");
-        },
-      },
-      {
-        id: "dbg",
-        text: "Debug",
-        action: async () => {
-          for (let i = 0; i < 10; i++) {
-            await currWindow.setSize(new LogicalSize(1000, 100 * i));
-          }
-        },
-      },
-    ],
-  });
+    const menu = await Menu.new({
+        items: [
+            {
+                id: "open",
+                text: "Open App",
+                action: () => {
+                    console.log("open pressed");
+                },
+            },
+            {
+                id: "close",
+                text: "Close App",
+                action: () => {
+                    console.log("close pressed");
+                },
+            },
+            {
+                id: "dbg",
+                text: "Debug",
+                action: async () => {
+                    for (let i = 0; i < 10; i++) {
+                        await currWindow.setSize(
+                            new LogicalSize(1000, 100 * i),
+                        );
+                    }
+                },
+            },
+        ],
+    });
 
-  tray.setMenu(menu);
+    tray.setMenu(menu);
 
-  const p = await platform();
+    const p = await platform();
 
-  if (p == "macos") {
-  } else {
-    const isReg = await isRegistered("F22");
-    if (!isReg) {
-      await register("F22", async (event) => {
-        if (event.state == "Pressed") await toggleVisibility();
-      });
+    if (p == "macos") {
+        //
+    } else {
+        const isReg = await isRegistered("F22");
+        if (!isReg) {
+            await register("F22", async (event) => {
+                if (event.state == "Pressed") await toggleVisibility();
+            });
+        }
     }
-  }
 }
 
 await init();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
 );

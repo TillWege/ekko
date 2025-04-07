@@ -6,7 +6,8 @@
     "linux"
   ],
   "windows": [
-    "main"
+    "main",
+    "test"
   ],
   "permissions": [
     "global-shortcut:default"

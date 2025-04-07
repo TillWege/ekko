@@ -7,6 +7,11 @@ fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
 
+#[tauri::command]
+fn logger(msg: String) {
+    println!("{}", msg);
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -14,6 +19,7 @@ pub fn run() {
         .plugin(tauri_plugin_os::init())
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![logger])
         .setup(|app| {
             let window = app.get_webview_window("main").unwrap();
 
