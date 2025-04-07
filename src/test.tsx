@@ -3,9 +3,15 @@ import ReactDOM from "react-dom/client";
 import { emit, listen } from "@tauri-apps/api/event";
 
 import '@mantine/core/styles.css';
+import "./assets/Atkinson.css";
 
-import { Box, Button, MantineProvider, Text, Title } from '@mantine/core';
+import { Box, Button, createTheme, MantineProvider, Text, Title } from '@mantine/core';
 
+
+const theme = createTheme({
+    fontFamily: 'Atkinson Hyperlegible',
+    fontFamilyMonospace: 'Monaco, Courier, monospace',
+  });
 
 function App() {
     const [count, setCount] = useState(0);
@@ -27,9 +33,9 @@ function App() {
     };
 
     return (
-        <Box className="bg-secondary">
-            <Title className="text-primary-foreground shadow-xs">React Counter</Title>
-            <Text className="text-primary-foreground shadow-xs">
+        <Box h={"100%"} w={"100%"}>
+            <Title>React Counter</Title>
+            <Text>
                 Current count: {count}
             </Text>
             <Button onClick={send}>Increment</Button>
@@ -39,7 +45,7 @@ function App() {
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
-      <MantineProvider forceColorScheme="dark">
+      <MantineProvider theme={theme} forceColorScheme="dark">
         <App />
       </MantineProvider>
     </React.StrictMode>,
