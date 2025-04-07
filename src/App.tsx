@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { getCurrentWindow, LogicalSize } from "@tauri-apps/api/window";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
-import { Button } from "./components/ui/button";
 
 function App() {
     const [expanded, setExpanded] = useState(false);
@@ -45,7 +44,7 @@ function App() {
                 }}
             >
                 <input id="greet-input" placeholder="Enter message" />
-                <Button type="submit">Run</Button>
+                <button type="submit">Run</button>
             </form>
             {expanded && <hr></hr>}
         </main>
