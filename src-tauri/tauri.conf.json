@@ -12,22 +12,12 @@
   "app": {
     "windows": [
       {
-        "label": "test",
-        "title": "ekko",
-        "width": 500,
-        "height": 500,
-        "transparent": false,
-        "center": true,
-        "decorations": true,
-        "url": "test.html"
-      },
-      {
         "label": "main",
         "title": "ekko",
         "width": 500,
         "height": 500,
-        "x": 0,
-        "transparent": false,
+        "transparent": true,
+        "center": true,
         "decorations": true,
         "url": "test.html"
       }
