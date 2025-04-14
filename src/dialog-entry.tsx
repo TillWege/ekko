@@ -1,12 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
+import App from "./dialog/dialog";
 import { TrayIcon } from "@tauri-apps/api/tray";
-import { isRegistered, register } from "@tauri-apps/plugin-global-shortcut";
+import {
+    isRegistered,
+    register,
+    unregister,
+} from "@tauri-apps/plugin-global-shortcut";
 import { Menu } from "@tauri-apps/api/menu";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
-import { getCurrentWindow } from "@tauri-apps/api/window";
-import { LogicalPosition, LogicalSize } from "@tauri-apps/api/dpi";
+import { LogicalPosition } from "@tauri-apps/api/dpi";
 import { platform } from "@tauri-apps/plugin-os";
 
 let vis = true;
@@ -15,18 +18,22 @@ async function toggleVisibility() {
     const currWindow = getCurrentWebviewWindow();
 
     if (!vis) {
-        await currWindow.setPosition(new LogicalPosition(0, 0));
+        await currWindow.center();
+        await currWindow.requestUserAttention(null);
     } else {
         await currWindow.setPosition(new LogicalPosition(1e6, 1e6));
     }
     vis = !vis;
 }
 
-async function init() {
-    const currWindow = getCurrentWindow();
-    await currWindow.setSkipTaskbar(true);
-    await currWindow.setAlwaysOnTop(true);
+function setupWindow() {
+    const currWindow = getCurrentWebviewWindow();
+    currWindow.setAlwaysOnTop(true);
+    currWindow.setDecorations(false);
+    currWindow.setSkipTaskbar(true);
+}
 
+async function setupTray() {
     const tray = await TrayIcon.new({
         icon: "icons/logo-small.png",
         tooltip: "Ekko",
@@ -44,28 +51,28 @@ async function init() {
                 },
             },
             {
+                id: "dlg",
+                text: "Open Dialog",
+                action: () => {
+                    console.log("open dialog pressed");
+                    toggleVisibility();
+                },
+            },
+            {
                 id: "close",
                 text: "Close App",
                 action: () => {
                     console.log("close pressed");
                 },
             },
-            {
-                id: "dbg",
-                text: "Debug",
-                action: async () => {
-                    for (let i = 0; i < 10; i++) {
-                        await currWindow.setSize(
-                            new LogicalSize(1000, 100 * i),
-                        );
-                    }
-                },
-            },
         ],
     });
 
     tray.setMenu(menu);
+}
 
+async function registerShortcut() {
+    const currWindow = getCurrentWebviewWindow();
     const p = await platform();
 
     if (p == "macos") {
@@ -77,7 +84,19 @@ async function init() {
                 if (event.state == "Pressed") await toggleVisibility();
             });
         }
+
+        currWindow.onCloseRequested(async (_) => {
+            unregister("F22").then(() => {
+                console.log("unregistered F22");
+            });
+        });
     }
+}
+
+async function init() {
+    setupWindow();
+    await setupTray();
+    await registerShortcut();
 }
 
 await init();

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "./App.css";
 import { getCurrentWindow, LogicalSize } from "@tauri-apps/api/window";
 import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 
@@ -43,7 +42,7 @@ function App() {
                     }
                 }}
             >
-                <input id="greet-input" placeholder="Enter message" />
+                <input placeholder="Enter message" />
                 <button type="submit">Run</button>
             </form>
             {expanded && <hr></hr>}

@@ -7,7 +7,7 @@
   ],
   "windows": [
     "main",
-    "test"
+    "dlg"
   ],
   "permissions": [
     "global-shortcut:default"
