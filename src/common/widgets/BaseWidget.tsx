@@ -42,3 +42,5 @@ export const BaseWidget = React.forwardRef<HTMLDivElement, BaseWidgetProps>(
         </Box>
     ),
 );
+
+BaseWidget.displayName = "BaseWidget";

@@ -18,3 +18,5 @@ export const CounterWidget = React.forwardRef<
         </BaseWidget>
     );
 });
+
+CounterWidget.displayName = "CounterWidget";
