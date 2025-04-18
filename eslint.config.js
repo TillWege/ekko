@@ -12,7 +12,9 @@ export default [
         files: ["src/**/*.{jsx,tsx}"], // Only apply React/JSX rules to .jsx and .tsx files
         languageOptions: {
             parser: typescriptParser,
-            globals: globals.browser,
+            globals: {
+                ...globals.browser,
+            },
             parserOptions: {
                 ecmaFeatures: {
                     jsx: true,
@@ -37,9 +39,11 @@ export default [
     },
     {
         files: ["src/**/*.{js,ts}"], // Apply standard JS/TS rules to .js and .ts files
-        globals: globals.browser,
         languageOptions: {
             parser: typescriptParser, // Still use TS parser for TS files
+            globals: {
+                ...globals.browser,
+            },
             parserOptions: {
                 ecmaVersion: "latest",
                 sourceType: "module",

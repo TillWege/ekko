@@ -85,7 +85,7 @@ async function registerShortcut() {
             });
         }
 
-        currWindow.onCloseRequested(async (_) => {
+        currWindow.onCloseRequested(async () => {
             unregister("F22").then(() => {
                 console.log("unregistered F22");
             });
