@@ -20,16 +20,6 @@
         "center": true,
         "decorations": true,
         "url": "src/app.html"
-      },
-      {
-        "label": "dlg",
-        "title": "ekko",
-        "width": 500,
-        "height": 80,
-        "transparent": true,
-        "center": true,
-        "decorations": false,
-        "url": "src/dialog.html"
       }
     ],
     "security": {

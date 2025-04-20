@@ -35,6 +35,7 @@ function setupWindow() {
 
 async function setupTray() {
     const tray = await TrayIcon.new({
+        id: "ekko",
         icon: "icons/logo-small.png",
         tooltip: "Ekko",
     });
@@ -69,6 +70,11 @@ async function setupTray() {
     });
 
     tray.setMenu(menu);
+
+    const currWindow = getCurrentWebviewWindow();
+    currWindow.onCloseRequested(async () => {
+        await tray.close();
+    });
 }
 
 async function registerShortcut() {

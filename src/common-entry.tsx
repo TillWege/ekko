@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { MantineProvider, MantineThemeOverride } from "@mantine/core";
+import { emotionTransform, MantineEmotionProvider } from "@mantine/emotion";
 
 import "@mantine/core/styles/global.css";
 import "@mantine/core/styles.css";
@@ -30,8 +31,14 @@ export function createApp({
 
     ReactDOM.createRoot(rootElement).render(
         <React.StrictMode>
-            <MantineProvider theme={theme} forceColorScheme={forceColorScheme}>
-                <MainLayout />
+            <MantineProvider
+                theme={theme}
+                forceColorScheme={forceColorScheme}
+                stylesTransform={emotionTransform}
+            >
+                <MantineEmotionProvider>
+                    <MainLayout />
+                </MantineEmotionProvider>
             </MantineProvider>
         </React.StrictMode>,
     );
