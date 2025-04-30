@@ -1,6 +1,11 @@
 .react-grid-placeholder {
-    background-color: rgba(0, 0, 0, 0.1); /* Light gray background */
-    border: 2px dashed #888; /* Dashed border */
+    background-color: rgba(1, 0, 0, 0.1); /* Light gray background */
+    border: 2px solid #888; /* Dashed border */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    border-radius: 20pt;
+    border-radius: 10pt;
+    color: blue;
+}
+
+.react-grid-item.react-grid-placeholder {
+    background-color: rgba(1, 0, 0, 0.1);
 }

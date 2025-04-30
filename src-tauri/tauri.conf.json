@@ -16,9 +16,7 @@
         "title": "ekko",
         "width": 500,
         "height": 500,
-        "transparent": true,
-        "center": true,
-        "decorations": true,
+        "decorations": false,
         "url": "src/app.html"
       }
     ],

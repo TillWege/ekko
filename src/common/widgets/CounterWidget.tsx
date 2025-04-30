@@ -1,8 +1,8 @@
 import React, { useState } from "react"; // Import React
-import { Title, Button, Text } from "@mantine/core";
+import { Button, Text } from "@mantine/core";
 import { BaseWidget, BaseWidgetProps } from "./BaseWidget";
 
-type CounterWidgetProps = Omit<BaseWidgetProps, "children">;
+type CounterWidgetProps = Omit<Omit<BaseWidgetProps, "children">, "title">;
 
 export const CounterWidget = React.forwardRef<
     HTMLDivElement,
@@ -11,8 +11,7 @@ export const CounterWidget = React.forwardRef<
     const [count, setCount] = useState(0);
 
     return (
-        <BaseWidget {...props} ref={ref}>
-            <Title>React Counter</Title>
+        <BaseWidget title="React Counter" {...props} ref={ref}>
             <Text>Current count: {count}</Text>
             <Button onClick={() => setCount((n) => n + 1)}>Increment</Button>
         </BaseWidget>

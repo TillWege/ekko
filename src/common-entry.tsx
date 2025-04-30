@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { MantineProvider, MantineThemeOverride } from "@mantine/core";
+import { Box, MantineProvider, MantineThemeOverride } from "@mantine/core";
 import { emotionTransform, MantineEmotionProvider } from "@mantine/emotion";
 
 import "@mantine/core/styles/global.css";
@@ -14,12 +14,30 @@ type AppConfig = {
     forceColorScheme?: "light" | "dark";
 };
 
+import { MantineTheme, TextProps } from "@mantine/core";
+import { EmotionHelpers } from "@mantine/emotion";
+
 export function createApp({
     rootElementId = "root",
     MainLayout,
     theme = {
+        colors: {
+            dark: [
+                "#C1C2C5",
+                "#A6A7AB",
+                "#909296",
+                "#5c5f66",
+                "#373A40",
+                "#2C2E33",
+                "#25262b",
+                "#1A1B1E",
+                "#141517",
+                "#101113",
+            ],
+        },
         fontFamily: "Atkinson Hyperlegible",
         fontFamilyMonospace: "Monaco, Courier, monospace",
+        primaryColor: "indigo",
     },
     forceColorScheme = "dark",
 }: AppConfig) {

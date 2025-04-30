@@ -1,7 +1,8 @@
 import React from "react";
-import { Box, Paper } from "@mantine/core";
+import { Box, Paper, Text } from "@mantine/core";
 
 export type BaseWidgetProps = {
+    title: string;
     children: React.ReactNode;
     style?: React.CSSProperties;
     className?: string;
@@ -12,17 +13,27 @@ export type BaseWidgetProps = {
 
 export const BaseWidget = React.forwardRef<HTMLDivElement, BaseWidgetProps>(
     (
-        { children, style, className, onMouseDown, onMouseUp, onTouchEnd },
+        {
+            children,
+            style,
+            className,
+            onMouseDown,
+            onMouseUp,
+            onTouchEnd,
+            title,
+        },
         ref,
     ) => (
         <Box
             ref={ref}
-            style={{
-                border: "1px solid",
-                borderRadius: 20,
-                height: "100%",
-                width: "100%",
-                ...style,
+            sx={(theme) => {
+                return {
+                    border: `1px solid ${theme.colors.dark[4]}`,
+                    borderRadius: 10,
+                    height: "100%",
+                    width: "100%",
+                    ...style,
+                };
             }}
             className={className}
             onMouseDown={onMouseDown}
@@ -30,14 +41,25 @@ export const BaseWidget = React.forwardRef<HTMLDivElement, BaseWidgetProps>(
             onTouchEnd={onTouchEnd}
         >
             <Paper
-                bg="red"
+                bg="dark.6"
                 style={{
-                    borderTopLeftRadius: 20,
-                    borderTopRightRadius: 20,
+                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 10,
                     height: 30,
                 }}
                 className="drag-handle"
-            />
+            >
+                <Text
+                    ml={"md"}
+                    fw={700}
+                    style={{
+                        userSelect: "none",
+                    }}
+                    pt={2}
+                >
+                    {title}
+                </Text>
+            </Paper>
             <Box m={20}>{children}</Box>
         </Box>
     ),

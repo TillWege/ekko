@@ -3,53 +3,38 @@ import "@mantine/core/styles.css";
 import "../assets/Atkinson.css";
 import "/node_modules/react-grid-layout/css/styles.css";
 import "/node_modules/react-resizable/css/styles.css";
-import { Responsive, WidthProvider } from "react-grid-layout";
+import { Layouts, Responsive, WidthProvider } from "react-grid-layout";
 import "../assets/test.css";
 
-import { Box, ScrollArea } from "@mantine/core";
+import { ScrollArea } from "@mantine/core";
 import { CounterWidget } from "@/common/widgets/CounterWidget";
+import { useState } from "react";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export function ScrollLayout() {
-    const layouts = {
-        lg: [
-            { i: "a", x: 0, y: 0, w: 3, h: 2 },
-            { i: "b", x: 3, y: 0, w: 3, h: 2 },
-            { i: "c", x: 6, y: 0, w: 3, h: 2 },
-        ],
-    };
+    const [layouts, setLayouts] = useState<Layouts>({
+        lg: [{ i: "counter", x: 6, y: 1, w: 3, h: 3 }],
+    });
 
     return (
-        <ScrollArea scrollbars="y" h={"100vh"} scrollbarSize={14}>
+        <ScrollArea
+            style={{
+                flex: 1,
+            }}
+        >
             <ResponsiveGridLayout
+                onLayoutChange={() => setLayouts(layouts)}
                 layouts={layouts}
                 compactType={null}
                 breakpoints={{ lg: 1200 }}
                 cols={{ lg: 12 }}
                 rowHeight={80}
                 draggableHandle=".drag-handle"
+                autoSize={false}
+                style={{ minHeight: "100%" }}
             >
-                <Box
-                    style={{
-                        border: "1px solid red",
-                    }}
-                    key="a"
-                >
-                    Item A
-                </Box>
-                <Box
-                    style={{
-                        border: "1px solid red",
-                        borderRadius: 20,
-                        padding: 20,
-                    }}
-                    key="b"
-                >
-                    Item B
-                </Box>
-
-                <CounterWidget key="c" />
+                <CounterWidget key="counter" />
             </ResponsiveGridLayout>
         </ScrollArea>
     );
