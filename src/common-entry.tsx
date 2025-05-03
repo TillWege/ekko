@@ -1,11 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Box, MantineProvider, MantineThemeOverride } from "@mantine/core";
+import { MantineProvider, MantineThemeOverride } from "@mantine/core";
 import { emotionTransform, MantineEmotionProvider } from "@mantine/emotion";
 
 import "@mantine/core/styles/global.css";
 import "@mantine/core/styles.css";
 import "./assets/Atkinson.css";
+import { prepareDb } from "./db/db";
 
 type AppConfig = {
     rootElementId: string;
@@ -14,10 +15,7 @@ type AppConfig = {
     forceColorScheme?: "light" | "dark";
 };
 
-import { MantineTheme, TextProps } from "@mantine/core";
-import { EmotionHelpers } from "@mantine/emotion";
-
-export function createApp({
+export async function createApp({
     rootElementId = "root",
     MainLayout,
     theme = {
@@ -45,6 +43,10 @@ export function createApp({
 
     if (!rootElement) {
         throw new Error(`Root element with id "${rootElementId}" not found.`);
+    }
+
+    {
+        await prepareDb();
     }
 
     ReactDOM.createRoot(rootElement).render(

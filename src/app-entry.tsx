@@ -2,7 +2,6 @@ import { createApp } from "./common-entry";
 import {
     Flex,
     Tabs,
-    Title,
     ActionIcon,
     Group,
     Box,
@@ -10,8 +9,8 @@ import {
     MantineStyleProp,
 } from "@mantine/core";
 import { getCurrentWindow } from "@tauri-apps/api/window";
-import { forwardRef, useEffect, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useState } from "react";
+import { AnimatePresence } from "motion/react";
 
 createApp({
     rootElementId: "root",
@@ -131,6 +130,7 @@ function TitleBar() {
 }
 
 import { keyframes } from "@mantine/emotion";
+import { DbTest } from "./app/dbtest";
 
 const fadeIn = keyframes({
     from: { opacity: 0 },
@@ -167,7 +167,7 @@ function App() {
                 </Tabs.Panel>
                 <AnimatePresence>
                     <Tabs.Panel style={panelStyle} value="second">
-                        <p>Options</p>
+                        <DbTest />
                     </Tabs.Panel>
                 </AnimatePresence>
 
