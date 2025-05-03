@@ -1,7 +1,17 @@
 import { createApp } from "./common-entry";
-import { Flex, Tabs, Title, ActionIcon, Group, Box, Text } from "@mantine/core";
+import {
+    Flex,
+    Tabs,
+    Title,
+    ActionIcon,
+    Group,
+    Box,
+    Text,
+    MantineStyleProp,
+} from "@mantine/core";
 import { getCurrentWindow } from "@tauri-apps/api/window";
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 
 createApp({
     rootElementId: "root",
@@ -15,7 +25,7 @@ import {
     IconPinFilled,
     IconX,
 } from "@tabler/icons-react";
-import { ScrollLayout } from "./app/app";
+import { Dashboard } from "./app/dashboard";
 
 const currentWindow = getCurrentWindow();
 
@@ -120,6 +130,21 @@ function TitleBar() {
     );
 }
 
+import { keyframes } from "@mantine/emotion";
+
+const fadeIn = keyframes({
+    from: { opacity: 0 },
+    to: { opacity: 1 },
+});
+
+const panelStyle: MantineStyleProp = {
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    flexGrow: 1,
+    animation: `${fadeIn} 5000ms ease-out`,
+};
+
 function App() {
     const [activeTab, setActiveTab] = useState<string | null>("first");
 
@@ -135,27 +160,16 @@ function App() {
                 value={activeTab}
                 onChange={setActiveTab}
                 inverted
+                keepMounted={false}
             >
-                <Tabs.Panel
-                    style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        flex: 1,
-                        flexGrow: 1,
-                    }}
-                    value="first"
-                >
-                    <ScrollLayout />
+                <Tabs.Panel style={panelStyle} value="first">
+                    <Dashboard />
                 </Tabs.Panel>
-                <Tabs.Panel
-                    style={{
-                        flex: 1,
-                        flexGrow: 1,
-                    }}
-                    value="second"
-                >
-                    <p>Options</p>
-                </Tabs.Panel>
+                <AnimatePresence>
+                    <Tabs.Panel style={panelStyle} value="second">
+                        <p>Options</p>
+                    </Tabs.Panel>
+                </AnimatePresence>
 
                 <Tabs.List>
                     <Tabs.Tab value="first">Dashboard</Tabs.Tab>

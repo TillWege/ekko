@@ -12,7 +12,7 @@ import { useState } from "react";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-export function ScrollLayout() {
+export function Dashboard() {
     const [layouts, setLayouts] = useState<Layouts>({
         lg: [{ i: "counter", x: 6, y: 1, w: 3, h: 3 }],
     });
