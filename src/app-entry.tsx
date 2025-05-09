@@ -1,19 +1,18 @@
 import { createApp } from "./common-entry";
-import {
-    Flex,
-    Tabs,
-    ActionIcon,
-    Group,
-    Box,
-    Text,
-    MantineStyleProp,
-} from "@mantine/core";
+import { Flex, Box, Text, Group, ActionIcon, Tabs } from "@mantine/core";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { useEffect, useState } from "react";
+import {
+    HashRouter,
+    Routes,
+    Route,
+    useNavigate,
+    useLocation,
+} from "react-router-dom";
 
 createApp({
     rootElementId: "root",
-    MainLayout: App,
+    MainLayout: AppContent,
 });
 
 import {
@@ -128,61 +127,57 @@ function TitleBar() {
     );
 }
 
-import { keyframes } from "@mantine/emotion";
-import { DbTest } from "./app/dbtest";
-import { Chat } from "./app/chat";
+import { DbTest } from "./app/debugIndex";
+import { Chat } from "./app/chatIndex";
+import { Notes } from "./app/notesIndex";
 
-const fadeIn = keyframes({
-    from: { opacity: 0 },
-    to: { opacity: 1 },
-});
+function AppContent() {
+    const navigate = useNavigate();
+    const location = useLocation();
 
-const panelStyle: MantineStyleProp = {
-    flex: 1,
-    display: "flex",
-    flexDirection: "column",
-    flexGrow: 1,
-    animation: `${fadeIn} 5000ms ease-out`,
-};
-
-function App() {
-    console.log(window.location.pathname);
-    const [activeTab, setActiveTab] = useState<string | null>("dashboard");
+    const currentPath =
+        location.pathname === "/"
+            ? "dashboard"
+            : location.pathname.substring(1);
 
     return (
-        <Flex h={"100vh"} mah={"100vh"} direction={"column"}>
-            <TitleBar />
-
-            <Tabs
-                style={{
-                    flex: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                }}
-                value={activeTab}
-                onChange={(val) => {
-                    console.log(val);
-                    setActiveTab(val);
-                }}
-                inverted
-                keepMounted={false}
-            >
-                <Tabs.Panel style={panelStyle} value="dashboard">
-                    <Dashboard />
-                </Tabs.Panel>
-                <Tabs.Panel style={panelStyle} value="debug">
-                    <DbTest />
-                </Tabs.Panel>
-                <Tabs.Panel style={panelStyle} value="chat">
-                    <Chat />
-                </Tabs.Panel>
-
-                <Tabs.List>
-                    <Tabs.Tab value="dashboard">Dashboard</Tabs.Tab>
-                    <Tabs.Tab value="chat">Chat</Tabs.Tab>
-                    <Tabs.Tab value="debug">Debug</Tabs.Tab>
-                </Tabs.List>
-            </Tabs>
-        </Flex>
+        <HashRouter>
+            <Flex h={"100vh"} mah={"100vh"} direction={"column"}>
+                <TitleBar />
+                <Tabs
+                    style={{
+                        flex: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                    }}
+                    value={currentPath}
+                    onChange={(value) => navigate(`/${value}`)}
+                    inverted
+                >
+                    <Box
+                        style={{
+                            flex: 1,
+                            display: "flex",
+                            flexDirection: "column",
+                            flexGrow: 1,
+                        }}
+                    >
+                        <Routes>
+                            <Route path="/" element={<Dashboard />} />
+                            <Route path="/dashboard" element={<Dashboard />} />
+                            <Route path="/debug" element={<DbTest />} />
+                            <Route path="/chat" element={<Chat />} />
+                            <Route path="/notes" element={<Notes />} />
+                        </Routes>
+                    </Box>
+                    <Tabs.List>
+                        <Tabs.Tab value="dashboard">Dashboard</Tabs.Tab>
+                        <Tabs.Tab value="chat">Chat</Tabs.Tab>
+                        <Tabs.Tab value="debug">Debug</Tabs.Tab>
+                        <Tabs.Tab value="notes">Notes</Tabs.Tab>
+                    </Tabs.List>
+                </Tabs>
+            </Flex>
+        </HashRouter>
     );
 }

@@ -4,16 +4,10 @@ import {
     Flex,
     Group,
     Textarea,
-    TextInput,
     Text,
-    Center,
     ActionIcon,
 } from "@mantine/core";
-import {
-    IconArrowBack,
-    IconArrowLeft,
-    IconDotsVertical,
-} from "@tabler/icons-react";
+import { IconArrowBack, IconDotsVertical } from "@tabler/icons-react";
 import { useState } from "react";
 
 enum Author {

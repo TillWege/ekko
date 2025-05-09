@@ -7,7 +7,7 @@ import { Layouts, Responsive, WidthProvider } from "react-grid-layout";
 import "../assets/test.css";
 
 import { ScrollArea } from "@mantine/core";
-import { CounterWidget } from "@/common/widgets/CounterWidget";
+import { CounterWidget } from "@/components/widgets/CounterWidget";
 import { useState } from "react";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
