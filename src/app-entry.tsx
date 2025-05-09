@@ -10,7 +10,6 @@ import {
 } from "@mantine/core";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { useEffect, useState } from "react";
-import { AnimatePresence } from "motion/react";
 
 createApp({
     rootElementId: "root",
@@ -131,6 +130,7 @@ function TitleBar() {
 
 import { keyframes } from "@mantine/emotion";
 import { DbTest } from "./app/dbtest";
+import { Chat } from "./app/chat";
 
 const fadeIn = keyframes({
     from: { opacity: 0 },
@@ -146,11 +146,13 @@ const panelStyle: MantineStyleProp = {
 };
 
 function App() {
-    const [activeTab, setActiveTab] = useState<string | null>("first");
+    console.log(window.location.pathname);
+    const [activeTab, setActiveTab] = useState<string | null>("dashboard");
 
     return (
         <Flex h={"100vh"} mah={"100vh"} direction={"column"}>
             <TitleBar />
+
             <Tabs
                 style={{
                     flex: 1,
@@ -158,22 +160,27 @@ function App() {
                     flexDirection: "column",
                 }}
                 value={activeTab}
-                onChange={setActiveTab}
+                onChange={(val) => {
+                    console.log(val);
+                    setActiveTab(val);
+                }}
                 inverted
                 keepMounted={false}
             >
-                <Tabs.Panel style={panelStyle} value="first">
+                <Tabs.Panel style={panelStyle} value="dashboard">
                     <Dashboard />
                 </Tabs.Panel>
-                <AnimatePresence>
-                    <Tabs.Panel style={panelStyle} value="second">
-                        <DbTest />
-                    </Tabs.Panel>
-                </AnimatePresence>
+                <Tabs.Panel style={panelStyle} value="debug">
+                    <DbTest />
+                </Tabs.Panel>
+                <Tabs.Panel style={panelStyle} value="chat">
+                    <Chat />
+                </Tabs.Panel>
 
                 <Tabs.List>
-                    <Tabs.Tab value="first">Dashboard</Tabs.Tab>
-                    <Tabs.Tab value="second">Options</Tabs.Tab>
+                    <Tabs.Tab value="dashboard">Dashboard</Tabs.Tab>
+                    <Tabs.Tab value="chat">Chat</Tabs.Tab>
+                    <Tabs.Tab value="debug">Debug</Tabs.Tab>
                 </Tabs.List>
             </Tabs>
         </Flex>
